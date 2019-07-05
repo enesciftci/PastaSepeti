@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Pasta Sepeti</string>
+    <string-array name="iller">
+        <item>value1</item>
+        <item>value2</item>
+    </string-array>
+    <string-array name="userInfo">
+
+    </string-array>
+    <string name="title_activity_inside">Inside</string>
+    <string name="title_anasayfa">Anasayfa</string>
+    <string name="title_pastaneler">Pastaneler</string>
+    <string name="title_siparisler">Siparişler</string>
+    <string name="title_ayarlar">Ayarlar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>

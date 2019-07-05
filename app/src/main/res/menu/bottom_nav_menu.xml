@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item
+    android:id="@+id/navigation_anasayfa"
+    android:icon="@drawable/ic_home_black_24dp"
+    android:title="@string/title_anasayfa" />
+
+<item
+    android:id="@+id/navigation_pastaneler"
+    android:icon="@drawable/ic_dashboard_black_24dp"
+    android:title="@string/title_pastaneler" />
+
+<item
+    android:id="@+id/navigation_siparisler"
+    android:icon="@drawable/baseline_shopping_cart_black_24"
+    android:title="@string/title_siparisler" />
+<item
+    android:id="@+id/navigation_ayarlar"
+    android:icon="@drawable/baseline_settings_black_24"
+    android:title="@string/title_ayarlar">
+
+</item>
+
+</menu>
