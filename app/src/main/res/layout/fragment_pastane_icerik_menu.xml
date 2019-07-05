@@ -5,9 +5,8 @@
     tools:context="PastaneIcerik.PastaneIcerikMenuFragment">
 
  <ListView
-     android:id="@+id/pastaneIcerikListView"
+     android:id="@+id/pastaneIcerikMenuListView"
      android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_marginTop="70dp"></ListView>
+     android:layout_height="wrap_content"></ListView>
 
 </LinearLayout>

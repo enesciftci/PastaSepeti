@@ -1,6 +1,5 @@
 package com.example.ibrahimenescifti.pastasepeti;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -16,31 +15,29 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class PastaSepetiDAL extends Activity {
+public class PastaSepetiDAL {
 
-    String _url = "http://pastaSepetiWebServis.somee.com/";
+  private static String _url = "http://pastaSepetiWebServis.somee.com/";
   public static   ArrayList<String>UyeBilgilerList=new ArrayList<>();
    public static ArrayList<String>PastaneBilgilerList=new ArrayList<>();
    public static ArrayList<String >PastaneIcerikList=new ArrayList<>();
     public boolean girisDurumu;
-   public static KullaniciBilgileri kullaniciBilgileri=new KullaniciBilgileri();
+   private static KullaniciBilgileri kullaniciBilgileri=new KullaniciBilgileri();
 
     public void GetUyeServisCalistir(String mail, String pass) {
 
         new GetUyeServis().execute(_url, mail, pass);
     }
 
-    class GetUyeServis extends AsyncTask<String, String, String> {
+   static class GetUyeServis extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... strings) {
             String dosya = "";
-            HttpURLConnection connection = null;
-            BufferedReader br = null;
+            HttpURLConnection connection ;
+            BufferedReader br;
             try {
-                String satir = "";
-
+                String satir ;
                 URL url = new URL(strings[0] + "/pastasepeti.asmx/GetUye?email=" + strings[1] + "&sifre=" + strings[2]);
-                String Url = url.toString();
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
 
@@ -74,14 +71,9 @@ public class PastaSepetiDAL extends Activity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            try {
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
-    private String xmlTemizle(String xml) {
+   static String xmlTemizle(String xml) {
         xml = xml.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
         xml = xml.replace("<string xmlns=\"http://tempuri.org/\">", "");
         xml = xml.replace("</string>", "");
@@ -107,10 +99,10 @@ public class PastaSepetiDAL extends Activity {
         @Override
         protected String doInBackground(String... strings) {
             String dosya = "";
-            HttpURLConnection connection = null;
-            BufferedReader br = null;
+            HttpURLConnection connection ;
+            BufferedReader br ;
             try {
-                String satir = "";
+                String satir ;
                 URL url = new URL(strings[0] + "pastasepeti.asmx/giris?Mail=" + strings[1] + "&Sifre=" + strings[2]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
@@ -137,14 +129,10 @@ public class PastaSepetiDAL extends Activity {
             xml = xml.replace("</boolean>", "");
 
             try {
-                String durum = xml;
-                for (int i = 0; i < durum.length(); i++) {
 
-                    girisDurumu = Boolean.parseBoolean(durum);
-                }
-                try {
-                } catch (Exception e) {
-                    e.printStackTrace();
+                for (int i = 0; i < xml.length(); i++) {
+
+                    girisDurumu = Boolean.parseBoolean(xml);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -169,7 +157,7 @@ public class PastaSepetiDAL extends Activity {
         new UyeKayit().execute(bilgiler);
     }
 
-    class UyeKayit extends AsyncTask<String, String, String> {
+   static class UyeKayit extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -182,7 +170,7 @@ public class PastaSepetiDAL extends Activity {
 
         @Override
         protected String doInBackground(String... strings) {
-            HttpURLConnection connection = null;
+            HttpURLConnection connection ;
 
             try {
                 URL url = new URL(_url +("pastasepeti.asmx/uyeEkle?kullaniciAdi="+strings[0]+"&kullaniciSoyadi="+strings[1]+"&kullaniciMail="+strings[2]+"&kullaniciTelefonNumarasi="+strings[3]+"&kullaniciSehir="+strings[4]+"&kullaniciIlce="+strings[5]+"&kullaniciSemt="+strings[6]+"&kullaniciSifre="+strings[7]+""));
@@ -201,11 +189,11 @@ public class PastaSepetiDAL extends Activity {
         new UyeSifremiUnuttum().execute(mail, pass);
     }
 
-    class UyeSifremiUnuttum extends AsyncTask<String, String, String> {
+    static class UyeSifremiUnuttum extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... strings) {
-            HttpURLConnection connection = null;
+            HttpURLConnection connection ;
             try {
                 URL url = new URL(_url + "pastasepeti.asmx/SifremiUnuttum?Mail=" + strings[0] + "&Sifre=" + strings[1] + "");
                 connection = (HttpURLConnection) url.openConnection();
@@ -231,7 +219,7 @@ public class PastaSepetiDAL extends Activity {
         new PastanelerGetir().execute( pastaneIl, pastaneIlce, pastaneSemt);
     }
 
-    class PastanelerGetir extends AsyncTask<String,String,String> {
+   static class PastanelerGetir extends AsyncTask<String,String,String> {
         HttpURLConnection connection = null;
 
         @Override
@@ -239,22 +227,19 @@ public class PastaSepetiDAL extends Activity {
             try {
                 PastaneBilgilerList.removeAll(PastaneBilgilerList);
                 String dosya = "";
-                BufferedReader br = null;
+                BufferedReader br ;
                URL url = new URL(_url + "pastasepeti.asmx/GetPastane?il="+strings[0]+"&ilce="+strings[1]+"&semt="+strings[2]+"");
                URL url1=new URL(url.toString());
                 System.out.println(url1);
                 connection = (HttpURLConnection) url1.openConnection();
                 connection.connect();
                 InputStream is = connection.getInputStream();
-                String satir = "";
+                String satir ;
                 br = new BufferedReader(new InputStreamReader(is));
-
                 while ((satir = br.readLine()) != null) {
                     dosya += satir;
                 }
-
               dosya=xmlTemizle(dosya);
-
                 JSONArray jsonArray=new JSONArray(dosya);
 
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -287,7 +272,7 @@ public String  xmlTemizle(String xml)
     {
         new PastaneIcerikGetir().execute(pastaneId);
     }
-    class PastaneIcerikGetir extends AsyncTask<String ,String ,String> {
+    static class PastaneIcerikGetir extends AsyncTask<String ,String ,String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -300,17 +285,17 @@ public String  xmlTemizle(String xml)
 
         @Override
         protected String doInBackground(String... strings) {
-            HttpURLConnection connection = null;
+            HttpURLConnection connection ;
             try {
 
                 PastaneIcerikList.removeAll(PastaneIcerikList);
                 String dosya = "";
-                BufferedReader br = null;
+                BufferedReader br ;
                 URL url = new URL(_url + "pastasepeti.asmx/GetPastaneIcerik?pastaneId=" + strings[0] + "");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
                 InputStream is = connection.getInputStream();
-                String satir = "";
+                String satir ;
                 br = new BufferedReader(new InputStreamReader(is));
 
                 while ((satir = br.readLine()) != null) {

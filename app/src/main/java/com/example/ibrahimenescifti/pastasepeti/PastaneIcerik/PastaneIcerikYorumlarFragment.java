@@ -15,11 +15,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import java.util.ArrayList;
 
-public class PastaneIcerikMenuFragment extends Fragment {
+public class PastaneIcerikYorumlarFragment extends Fragment {
     PastaneIcerikModel pastaneIcerikModel=new PastaneIcerikModel();
-    public ListView pastaneIcerikMenuListView ;
-
-    public PastaneIcerikMenuFragment() {
+    public ListView pastaneIcerikYorumlarListView;
+    public PastaneIcerikYorumlarFragment() {
         // Required empty public constructor
     }
 
@@ -37,9 +36,9 @@ public class PastaneIcerikMenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_pastane_icerik_menu, container, false);
+        View view=inflater.inflate(R.layout.fragment_pastane_icerik_yorumlar, container, false);
         // Inflate the layout for this fragment
-        pastaneIcerikMenuListView= view.findViewById(R.id.pastaneIcerikMenuListView);
+        pastaneIcerikYorumlarListView= view.findViewById(R.id.pastaneIcerikYorumlarListView);
         try {
 
             Thread.sleep(1500);
@@ -56,7 +55,7 @@ public class PastaneIcerikMenuFragment extends Fragment {
             e.printStackTrace();
         }
         icerikAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, icerikArray);
-        pastaneIcerikMenuListView.setAdapter(icerikAdapter);
+        pastaneIcerikYorumlarListView.setAdapter(icerikAdapter);
         return view;
     }
 }
