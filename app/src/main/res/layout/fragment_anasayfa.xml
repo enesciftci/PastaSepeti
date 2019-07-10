@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AnasayfaFragment"
+    tools:context=".Inside.AnasayfaFragment"
+    android:background="@drawable/grad_bg"
     android:id="@+id/linearHomePage">
 
     <!-- TODO: Update blank fragment layout -->
@@ -17,12 +18,13 @@
             android:layout_gravity="center"
             android:layout_marginTop="70dp"
             app:cardCornerRadius="10dp"
-            android:background="@android:color/holo_red_light"
+            android:background="@drawable/grad_bg"
             >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@drawable/grad_bg">
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,13 +32,16 @@
             android:id="@+id/textView1"
             android:layout_alignParentTop="true"
             android:textSize="30sp"
+            android:background="@drawable/grad_bg"
+            android:textColor="@color/white"
             android:text="İbrahim Enes Çiftçi"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView2"
-
+android:background="@drawable/grad_bg"
+            android:textColor="@color/white"
             android:layout_alignParentTop="true"
             android:layout_below="@+id/textView1"
             android:text="Developer"/>

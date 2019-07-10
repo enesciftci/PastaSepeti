@@ -12,6 +12,8 @@
     <string name="title_pastaneler">Pastaneler</string>
     <string name="title_siparisler">Siparişler</string>
     <string name="title_ayarlar">Ayarlar</string>
+    <string name="title_urunDetayBaslik">Ürün Detay</string>
+    <string name="title_pastanelerBaslik">Size En Yakın Pastaneler</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

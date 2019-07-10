@@ -1,4 +1,4 @@
-package com.example.ibrahimenescifti.pastasepeti;
+package com.example.ibrahimenescifti.pastasepeti.Anasayfa;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,11 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.ibrahimenescifti.pastasepeti.DALs.PastaSepetiDAL;
+import com.example.ibrahimenescifti.pastasepeti.Inside.Inside;
+import com.example.ibrahimenescifti.pastasepeti.Modeller.KullaniciBilgileriModel;
+import com.example.ibrahimenescifti.pastasepeti.R;
+
 public class Activity_Login extends AppCompatActivity {
     public final static String MAIL = "com.example.ibrahimenescifti.PastaSepeti.MAIL";
     public final static String PASS = "com.example.ibrahimenescifti.PastaSepeti.PASS";
@@ -18,7 +23,7 @@ public class Activity_Login extends AppCompatActivity {
     EditText edt_mail, edt_pass;
     Button login, forgot, register;
     PastaSepetiDAL pastaSepetiDAL=new PastaSepetiDAL();
-    KullaniciBilgileri kullaniciBilgileri=new KullaniciBilgileri();
+  public static   KullaniciBilgileriModel kullaniciBilgileri=new KullaniciBilgileriModel();
 
     String Url,mail,pass;
     Handler handler = new Handler();
@@ -39,6 +44,8 @@ public class Activity_Login extends AppCompatActivity {
         rellay2 = findViewById(R.id.rellay2);
         handler.postDelayed(runnable, 2000);
         CatchElements();
+
+
        login.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -53,7 +60,7 @@ public class Activity_Login extends AppCompatActivity {
 
                  if(pastaSepetiDAL.girisDurumu==true)
                  {
-                     Intent i=new Intent(Activity_Login.this,Inside.class);
+                     Intent i=new Intent(Activity_Login.this, Inside.class);
                      i.putExtra(URL,Url);
                      i.putExtra(MAIL,kullaniciBilgileri.getMail());
                      i.putExtra(PASS,kullaniciBilgileri.getSifre());
@@ -89,7 +96,7 @@ public class Activity_Login extends AppCompatActivity {
        forgot.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Intent i=new Intent(Activity_Login.this,Forgot.class);
+               Intent i=new Intent(Activity_Login.this, Forgot.class);
                i.putExtra("Url",Url);
                startActivity(i);
            }
@@ -102,7 +109,7 @@ public class Activity_Login extends AppCompatActivity {
         forgot = findViewById(R.id.btn_forgotIn);
         register = findViewById(R.id.btn_registerIn);
         Url = "http://pastaSepetiWebServis.somee.com/";
+        //cardView=findViewById(R.id.cardView1);
     }
-    public void prog() {
-    }
+
 }

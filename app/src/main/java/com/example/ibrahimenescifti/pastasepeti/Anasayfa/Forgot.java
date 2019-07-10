@@ -1,10 +1,13 @@
-package com.example.ibrahimenescifti.pastasepeti;
+package com.example.ibrahimenescifti.pastasepeti.Anasayfa;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.ibrahimenescifti.pastasepeti.DALs.PastaSepetiDAL;
+import com.example.ibrahimenescifti.pastasepeti.R;
 
 public class Forgot extends AppCompatActivity {
 

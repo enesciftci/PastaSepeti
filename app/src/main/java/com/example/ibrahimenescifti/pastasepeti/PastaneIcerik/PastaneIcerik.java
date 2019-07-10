@@ -9,8 +9,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ListView;
 
-import com.example.ibrahimenescifti.pastasepeti.PastaSepetiDAL;
+import com.example.ibrahimenescifti.pastasepeti.DALs.PastaSepetiDAL;
 import com.example.ibrahimenescifti.pastasepeti.R;
 
 import java.util.ArrayList;
@@ -21,11 +22,14 @@ public static  String pastaneId;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+   public static ArrayList urunler=new ArrayList();
+   ListView urunlerList;
 
 @Override
     protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_pastane_icerik);
+    urunlerList=findViewById(R.id.pastaneIcerikMenuListView);
     try {
         Intent intent = getIntent();
         pastaneId = intent.getStringExtra("id");

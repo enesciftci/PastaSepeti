@@ -3,13 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PastanelerFragment"
+    tools:context=".Inside.PastanelerFragment"
     android:background="@color/white">
 
+    <TextView
+        android:id="@+id/txtBaslik"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/grad_bg"
+        android:text="@string/title_pastanelerBaslik"
+        android:gravity="center_horizontal|center"
+        android:textColor="@color/white"
+        android:textSize="25sp"/>
     <ListView
         android:id="@+id/pastanelerListview"
+        android:layout_below="@id/txtBaslik"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="0dp"
         />
 </RelativeLayout>

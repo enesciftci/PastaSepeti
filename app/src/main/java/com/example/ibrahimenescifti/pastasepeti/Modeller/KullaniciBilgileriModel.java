@@ -1,8 +1,8 @@
-package com.example.ibrahimenescifti.pastasepeti;
+package com.example.ibrahimenescifti.pastasepeti.Modeller;
 
 import java.util.UUID;
 
-public class KullaniciBilgileri {
+public class KullaniciBilgileriModel {
     UUID KullaniciId;
     String Ad;
     String Soyad;

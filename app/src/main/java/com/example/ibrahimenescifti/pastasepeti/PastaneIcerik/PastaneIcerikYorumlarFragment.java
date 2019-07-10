@@ -8,10 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.ibrahimenescifti.pastasepeti.PastaSepetiDAL;
 import com.example.ibrahimenescifti.pastasepeti.R;
-
-import org.codehaus.jackson.map.ObjectMapper;
 
 import java.util.ArrayList;
 
@@ -38,7 +35,7 @@ public class PastaneIcerikYorumlarFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_pastane_icerik_yorumlar, container, false);
         // Inflate the layout for this fragment
-        pastaneIcerikYorumlarListView= view.findViewById(R.id.pastaneIcerikYorumlarListView);
+       /* pastaneIcerikYorumlarListView= view.findViewById(R.id.pastaneIcerikYorumlarListView);
         try {
 
             Thread.sleep(1500);
@@ -49,13 +46,12 @@ public class PastaneIcerikYorumlarFragment extends Fragment {
             for (int i = 0; i < PastaSepetiDAL.PastaneIcerikList.size(); i++) {
                 ObjectMapper mapper = new ObjectMapper();
                 pastaneIcerikModel = mapper.readValue(PastaSepetiDAL.PastaneIcerikList.get(i), PastaneIcerikModel.class);
-                icerikArray.add(pastaneIcerikModel.getUrunAdi());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         icerikAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, icerikArray);
-        pastaneIcerikYorumlarListView.setAdapter(icerikAdapter);
+        pastaneIcerikYorumlarListView.setAdapter(icerikAdapter);*/
         return view;
     }
 }

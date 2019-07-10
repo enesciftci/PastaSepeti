@@ -1,4 +1,4 @@
-package com.example.ibrahimenescifti.pastasepeti;
+package com.example.ibrahimenescifti.pastasepeti.Modeller;
 
 import java.util.UUID;
 
@@ -9,6 +9,24 @@ public class PastaneBilgileriModel {
     private boolean pastaneDurum;
     private String  pastaneIlce;
     private String pastaneSemt;
+    private String    pastaneAcilis;
+    private String pastaneKapanis;
+    public String getPastaneAcilis() {
+        return pastaneAcilis;
+    }
+
+    public void setPastaneAcilis(String pastaneAcilis) {
+        this.pastaneAcilis = pastaneAcilis;
+    }
+
+    public String getPastaneKapanis() {
+        return pastaneKapanis;
+    }
+
+    public void setPastaneKapanis(String pastaneKapanis) {
+        this.pastaneKapanis = pastaneKapanis;
+    }
+
 
     public UUID getPastaneId() {
         return pastaneId;

@@ -1,6 +1,9 @@
-package com.example.ibrahimenescifti.pastasepeti;
+package com.example.ibrahimenescifti.pastasepeti.DALs;
 
 import android.os.AsyncTask;
+
+import com.example.ibrahimenescifti.pastasepeti.Modeller.KullaniciBilgileriModel;
+import com.example.ibrahimenescifti.pastasepeti.Modeller.PastaneBilgileriModel;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONArray;
@@ -21,8 +24,9 @@ public class PastaSepetiDAL {
   public static   ArrayList<String>UyeBilgilerList=new ArrayList<>();
    public static ArrayList<String>PastaneBilgilerList=new ArrayList<>();
    public static ArrayList<String >PastaneIcerikList=new ArrayList<>();
+   public static PastaneBilgileriModel pastaneBilgileriModel=new PastaneBilgileriModel();
     public boolean girisDurumu;
-   private static KullaniciBilgileri kullaniciBilgileri=new KullaniciBilgileri();
+   public static KullaniciBilgileriModel kullaniciBilgileri=new KullaniciBilgileriModel();
 
     public void GetUyeServisCalistir(String mail, String pass) {
 
@@ -40,7 +44,6 @@ public class PastaSepetiDAL {
                 URL url = new URL(strings[0] + "/pastasepeti.asmx/GetUye?email=" + strings[1] + "&sifre=" + strings[2]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
-
                 InputStream is = connection.getInputStream();
 
                 br = new BufferedReader(new InputStreamReader(is));
@@ -49,11 +52,11 @@ public class PastaSepetiDAL {
                     dosya += satir;
                 }
                 dosya=xmlTemizle(dosya);
-               /* JSONArray jsonArray=new JSONArray(dosya);
+                JSONArray jsonArray=new JSONArray(dosya);
                 for (int i=0;i<jsonArray.length();i++) {
                     ObjectMapper mapper = new ObjectMapper();
-                    kullaniciBilgileri = mapper.readValue(PastaSepetiDAL.UyeBilgilerList.get(0), KullaniciBilgileri.class);
-                }*/
+                    kullaniciBilgileri = mapper.readValue(PastaSepetiDAL.UyeBilgilerList.get(0), KullaniciBilgileriModel.class);
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -83,7 +86,7 @@ public class PastaSepetiDAL {
 
                 UyeBilgilerList.add(jsonArray.getString(i));
             } ObjectMapper mapper = new ObjectMapper();
-            kullaniciBilgileri = mapper.readValue(PastaSepetiDAL.UyeBilgilerList.get(0), KullaniciBilgileri.class);
+            kullaniciBilgileri = mapper.readValue(PastaSepetiDAL.UyeBilgilerList.get(0), KullaniciBilgileriModel.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -176,8 +179,6 @@ public class PastaSepetiDAL {
                 URL url = new URL(_url +("pastasepeti.asmx/uyeEkle?kullaniciAdi="+strings[0]+"&kullaniciSoyadi="+strings[1]+"&kullaniciMail="+strings[2]+"&kullaniciTelefonNumarasi="+strings[3]+"&kullaniciSehir="+strings[4]+"&kullaniciIlce="+strings[5]+"&kullaniciSemt="+strings[6]+"&kullaniciSifre="+strings[7]+""));
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
-                System.out.println(url);
-                System.out.println(connection.getResponseMessage());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -230,9 +231,9 @@ public class PastaSepetiDAL {
                 BufferedReader br ;
                URL url = new URL(_url + "pastasepeti.asmx/GetPastane?il="+strings[0]+"&ilce="+strings[1]+"&semt="+strings[2]+"");
                URL url1=new URL(url.toString());
-                System.out.println(url1);
                 connection = (HttpURLConnection) url1.openConnection();
                 connection.connect();
+                System.out.println("url++++++++"+url1);
                 InputStream is = connection.getInputStream();
                 String satir ;
                 br = new BufferedReader(new InputStreamReader(is));
@@ -240,6 +241,7 @@ public class PastaSepetiDAL {
                     dosya += satir;
                 }
               dosya=xmlTemizle(dosya);
+                System.out.println(dosya+"++++++++++");
                 JSONArray jsonArray=new JSONArray(dosya);
 
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -303,7 +305,6 @@ public String  xmlTemizle(String xml)
                 }
 
                 dosya = xmlTemizle(dosya);
-                System.out.println(dosya+" +++++++++++");
                 JSONArray jsonArray = new JSONArray(dosya);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     PastaneIcerikList.add(jsonArray.getString(i));

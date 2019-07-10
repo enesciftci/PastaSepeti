@@ -11,10 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="$UrunIcerik"></activity>
-        <activity android:name="$PastaneIcerik.PastaneIcerik" />
+        <activity android:name=".Sepet"></activity>
+        <activity android:name=".UrunDetay" />
+        <activity android:name=".PastaneIcerik.PastaneIcerik" />
         <activity
-            android:name="$Inside"
+            android:name=".Inside.Inside"
             android:label="@string/title_activity_inside"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -23,21 +24,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="$Activity_Login">
+        <activity android:name=".Anasayfa.Activity_Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="$Register">
+        <activity android:name=".Anasayfa.Register">
             <intent-filter>
                 <action android:name="android.intent.action.Register" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="$Forgot">
+        <activity android:name=".Anasayfa.Forgot">
             <intent-filter>
                 <action android:name="android.intent.action.Forgot" />
 

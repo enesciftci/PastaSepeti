@@ -1,4 +1,4 @@
-package com.example.ibrahimenescifti.pastasepeti;
+package com.example.ibrahimenescifti.pastasepeti.DALs;
 
 import android.content.Context;
 import android.database.Cursor;

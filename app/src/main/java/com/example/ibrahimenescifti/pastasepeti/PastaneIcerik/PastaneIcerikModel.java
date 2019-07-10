@@ -3,18 +3,19 @@ package com.example.ibrahimenescifti.pastasepeti.PastaneIcerik;
 import java.util.UUID;
 
 public class PastaneIcerikModel {
-    UUID MenuId;
+    UUID UrunId;
     UUID PastaneId;
     String UrunAdi;
     double UrunFiyati;
     String UrunDetay;
     UUID UrunAltKategoriId;
-    public UUID getMenuId() {
-        return MenuId;
+
+    public UUID getUrunId() {
+        return UrunId;
     }
 
-    public void setMenuId(UUID menuId) {
-        MenuId = menuId;
+    public void setUrunId(UUID urunId) {
+        UrunId = urunId;
     }
 
     public UUID getPastaneId() {

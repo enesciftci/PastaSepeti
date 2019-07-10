@@ -1,4 +1,4 @@
-package com.example.ibrahimenescifti.pastasepeti;
+package com.example.ibrahimenescifti.pastasepeti.Modeller;
 
 public class SehirlerIlcelerSemtlerModel {
     int SehirId;

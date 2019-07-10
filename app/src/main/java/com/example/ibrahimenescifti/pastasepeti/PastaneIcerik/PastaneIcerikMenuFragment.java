@@ -1,31 +1,35 @@
 package com.example.ibrahimenescifti.pastasepeti.PastaneIcerik;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.example.ibrahimenescifti.pastasepeti.PastaSepetiDAL;
+import com.example.ibrahimenescifti.pastasepeti.DALs.PastaSepetiDAL;
 import com.example.ibrahimenescifti.pastasepeti.R;
+import com.example.ibrahimenescifti.pastasepeti.UrunDetay;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PastaneIcerikMenuFragment extends Fragment {
-    PastaneIcerikModel pastaneIcerikModel=new PastaneIcerikModel();
-    public ListView pastaneIcerikMenuListView ;
-
+    PastaneIcerikModel pastaneIcerikModel = new PastaneIcerikModel();
+    public ListView pastaneIcerikMenuListView;
+TextView urunDetay,urunAdi;
     public PastaneIcerikMenuFragment() {
         // Required empty public constructor
     }
 
-    ArrayAdapter icerikAdapter;
-    PastaneIcerik pastaneIcerik=new PastaneIcerik();
-    ArrayList<String > icerikArray=new ArrayList<>();
+    ArrayAdapter<Object> icerikAdapter;
+   HashMap<String,PastaneIcerikModel> icerikMap = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,11 +39,13 @@ public class PastaneIcerikMenuFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_pastane_icerik_menu, container, false);
+        View view = inflater.inflate(R.layout.fragment_pastane_icerik_menu, container, false);
         // Inflate the layout for this fragment
-        pastaneIcerikMenuListView= view.findViewById(R.id.pastaneIcerikMenuListView);
+        urunDetay=view.findViewById(R.id.textViewUrunDetay);
+        urunAdi=view.findViewById(R.id.textViewUrunAdi);
+        pastaneIcerikMenuListView = view.findViewById(R.id.pastaneIcerikMenuListView);
         try {
 
             Thread.sleep(1500);
@@ -50,13 +56,27 @@ public class PastaneIcerikMenuFragment extends Fragment {
             for (int i = 0; i < PastaSepetiDAL.PastaneIcerikList.size(); i++) {
                 ObjectMapper mapper = new ObjectMapper();
                 pastaneIcerikModel = mapper.readValue(PastaSepetiDAL.PastaneIcerikList.get(i), PastaneIcerikModel.class);
-                icerikArray.add(pastaneIcerikModel.getUrunAdi());
+                icerikMap.put(pastaneIcerikModel.getUrunAdi(),pastaneIcerikModel);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        icerikAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, icerikArray);
+        icerikAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, icerikMap.keySet().toArray());
         pastaneIcerikMenuListView.setAdapter(icerikAdapter);
+
+        pastaneIcerikMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String seciliUrun = (pastaneIcerikMenuListView.getItemAtPosition(position)).toString();
+                Intent i =new Intent(view.getContext(), UrunDetay.class);
+                i.putExtra("URUNADI",icerikMap.get(seciliUrun).getUrunAdi());
+                i.putExtra("URUNDETAY",icerikMap.get(seciliUrun).getUrunDetay());
+                i.putExtra("URUNFIYAT",icerikMap.get(seciliUrun).getUrunFiyat());
+                i.putExtra("PASTANEADI",icerikMap.get(seciliUrun).getPastaneId());// burayı doldur içi boş geliyor
+                startActivity(i);
+
+            }
+        });
         return view;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.ibrahimenescifti.pastasepeti;
+package com.example.ibrahimenescifti.pastasepeti.Inside;
 
 
 import android.os.Bundle;
@@ -7,14 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.ibrahimenescifti.pastasepeti.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AyarlarFragment extends android.app.Fragment {
+public class SiparislerFragment extends android.app.Fragment {
 
 
-    public AyarlarFragment() {
+    public SiparislerFragment() {
         // Required empty public constructor
     }
 
@@ -23,7 +25,7 @@ public class AyarlarFragment extends android.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ayarlar, container, false);
+        return inflater.inflate(R.layout.fragment_siparisler, container, false);
     }
 
 }
