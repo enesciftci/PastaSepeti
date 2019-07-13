@@ -14,6 +14,15 @@
     <string name="title_ayarlar">Ayarlar</string>
     <string name="title_urunDetayBaslik">Ürün Detay</string>
     <string name="title_pastanelerBaslik">Size En Yakın Pastaneler</string>
+    <string name="title_odemeBaslik">Ödeme</string>
+    <string name="title_adresler">Adresler</string>
+    <string name="title_sepet">Seçilen Ürünler</string>
+    <string name="title_odemeBilgileri">Ödeme Bilgileri</string>
+    <string name="btnSepeteEkle">Sepete Ekle</string>
+    <string name="title_odenmesiGerekenTutar">Ödemeniz Gereken Tutar</string>
+    <string name="title_odemeYontemi">Ödeme Yöntemi Seçin</string>
+    <string name="radio_Nakit">Nakit</string>
+    <string name="radio_KrediBanka">Kredi/Banka Kartı</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

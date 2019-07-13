@@ -47,6 +47,7 @@ public class PastaSepetiSQLiteDal {
         return sehirler;
     }
 
+
     public HashMap<Integer, String> IlceGetir(int id) {
         SQLiteDatabase SQLiteDatabaseInstance_ = helper.getWritableDatabase();
         HashMap<Integer, String> ilceler = new HashMap<>();//String türünde bir liste oluşturduk.

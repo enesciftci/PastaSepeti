@@ -1,4 +1,4 @@
-package com.example.ibrahimenescifti.pastasepeti;
+package com.example.ibrahimenescifti.pastasepeti.Modeller;
 
 import java.util.UUID;
 
@@ -15,6 +15,15 @@ public class SepetModel {
     String urunAdi;
     String urunDetay;
     Double urunFiyat;
+    int urunAdet;
+    public int getUrunAdet() {
+        return urunAdet;
+    }
+
+    public void setUrunAdet(int urunAdet) {
+        this.urunAdet = urunAdet;
+    }
+
     public String getPastaneAdi() {
         return pastaneAdi;
     }

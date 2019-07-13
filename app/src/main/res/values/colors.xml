@@ -6,6 +6,7 @@
 
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
-    <color name="gradStart">#f5ad42</color>
-    <color name="gradStop">#f5dd42</color>
+    <color name="gradStart">#ff9966</color>
+    <color name="gradMid"></color>
+    <color name="gradStop">#ff5e62</color>
 </resources>

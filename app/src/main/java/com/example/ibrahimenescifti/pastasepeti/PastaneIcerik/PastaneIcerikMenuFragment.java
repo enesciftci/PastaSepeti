@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ibrahimenescifti.pastasepeti.DALs.PastaSepetiDAL;
+import com.example.ibrahimenescifti.pastasepeti.Inside.PastanelerFragment;
 import com.example.ibrahimenescifti.pastasepeti.R;
 import com.example.ibrahimenescifti.pastasepeti.UrunDetay;
 
@@ -72,7 +73,7 @@ TextView urunDetay,urunAdi;
                 i.putExtra("URUNADI",icerikMap.get(seciliUrun).getUrunAdi());
                 i.putExtra("URUNDETAY",icerikMap.get(seciliUrun).getUrunDetay());
                 i.putExtra("URUNFIYAT",icerikMap.get(seciliUrun).getUrunFiyat());
-                i.putExtra("PASTANEADI",icerikMap.get(seciliUrun).getPastaneId());// burayı doldur içi boş geliyor
+                i.putExtra("PASTANEADI", PastanelerFragment.pastaneAdi);// burayı doldur içi boş geliyor
                 startActivity(i);
 
             }

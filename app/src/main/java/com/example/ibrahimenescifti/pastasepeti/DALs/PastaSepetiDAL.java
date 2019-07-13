@@ -2,8 +2,8 @@ package com.example.ibrahimenescifti.pastasepeti.DALs;
 
 import android.os.AsyncTask;
 
+import com.example.ibrahimenescifti.pastasepeti.Modeller.KullaniciAdreslerModel;
 import com.example.ibrahimenescifti.pastasepeti.Modeller.KullaniciBilgileriModel;
-import com.example.ibrahimenescifti.pastasepeti.Modeller.PastaneBilgileriModel;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONArray;
@@ -17,6 +17,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class PastaSepetiDAL {
 
@@ -24,8 +25,9 @@ public class PastaSepetiDAL {
   public static   ArrayList<String>UyeBilgilerList=new ArrayList<>();
    public static ArrayList<String>PastaneBilgilerList=new ArrayList<>();
    public static ArrayList<String >PastaneIcerikList=new ArrayList<>();
-   public static PastaneBilgileriModel pastaneBilgileriModel=new PastaneBilgileriModel();
+   public static ArrayList<String> AdresList=new ArrayList<>();
     public boolean girisDurumu;
+    public static KullaniciAdreslerModel kullaniciAdreslerModel=new KullaniciAdreslerModel();
    public static KullaniciBilgileriModel kullaniciBilgileri=new KullaniciBilgileriModel();
 
     public void GetUyeServisCalistir(String mail, String pass) {
@@ -106,7 +108,7 @@ public class PastaSepetiDAL {
             BufferedReader br ;
             try {
                 String satir ;
-                URL url = new URL(strings[0] + "pastasepeti.asmx/giris?Mail=" + strings[1] + "&Sifre=" + strings[2]);
+                URL url = new URL(strings[0] + "pastasepeti.asmx/UyeGiris?Mail=" + strings[1] + "&Sifre=" + strings[2]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
 
@@ -176,7 +178,7 @@ public class PastaSepetiDAL {
             HttpURLConnection connection ;
 
             try {
-                URL url = new URL(_url +("pastasepeti.asmx/uyeEkle?kullaniciAdi="+strings[0]+"&kullaniciSoyadi="+strings[1]+"&kullaniciMail="+strings[2]+"&kullaniciTelefonNumarasi="+strings[3]+"&kullaniciSehir="+strings[4]+"&kullaniciIlce="+strings[5]+"&kullaniciSemt="+strings[6]+"&kullaniciSifre="+strings[7]+""));
+                URL url = new URL(_url +("pastasepeti.asmx/UyeEkle?kullaniciAdi="+strings[0]+"&kullaniciSoyadi="+strings[1]+"&kullaniciMail="+strings[2]+"&kullaniciTelefonNumarasi="+strings[3]+"&kullaniciSehir="+strings[4]+"&kullaniciIlce="+strings[5]+"&kullaniciSemt="+strings[6]+"&kullaniciSifre="+strings[7]+""));
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
             } catch (Exception e) {
@@ -233,7 +235,6 @@ public class PastaSepetiDAL {
                URL url1=new URL(url.toString());
                 connection = (HttpURLConnection) url1.openConnection();
                 connection.connect();
-                System.out.println("url++++++++"+url1);
                 InputStream is = connection.getInputStream();
                 String satir ;
                 br = new BufferedReader(new InputStreamReader(is));
@@ -241,7 +242,6 @@ public class PastaSepetiDAL {
                     dosya += satir;
                 }
               dosya=xmlTemizle(dosya);
-                System.out.println(dosya+"++++++++++");
                 JSONArray jsonArray=new JSONArray(dosya);
 
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -315,6 +315,83 @@ public String  xmlTemizle(String xml)
 
             return null;
         }
+    }
+    //////////////////////////
+
+    static String xmlTemizleGetAdres(String xml) {
+        xml = xml.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
+        xml = xml.replace("<string xmlns=\"http://tempuri.org/\">", "");
+        xml = xml.replace("</string>", "");
+        return xml;
+    }
+    public void AdresGetirCalistir(String kullaniciId)
+    {
+        new AdresGetir().execute(kullaniciId);
+    }
+    static class AdresGetir extends AsyncTask<String ,String ,String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {//Url güncellenecek msdn forumundan gelen bilgiye göre
+            HttpURLConnection connection ;
+            try {
+
+                AdresList.clear();
+                String dosya = "";
+                BufferedReader br ;
+                URL url = new URL(_url + ("pastasepeti.asmx/GetAdresler?kullaniciId="+strings[0]+""));
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream is = connection.getInputStream();
+                String satir ;
+                br = new BufferedReader(new InputStreamReader(is));
+                while ((satir = br.readLine()) != null) {
+                    dosya += satir;
+                }
+                dosya = xmlTemizleGetAdres(dosya);
+                JSONArray jsonArray = new JSONArray(dosya);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    AdresList.add(jsonArray.getString(i));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+    private void AdresGuncelle(UUID adresId,String adres)
+    {
+        HttpURLConnection connection ;
+
+        try {
+            URL url = new URL(_url +("pastasepeti.asmx/AdresGuncelle?adresId="+adresId.toString()+"&adres="+adres+""));
+            connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void AdresEkle (UUID kullaniciId,String adres)
+    {
+        HttpURLConnection connection ;
+
+        try {
+            URL url = new URL(_url +(" pastasepeti.asmx/AdresEkle?kullaniciId="+kullaniciId.toString()+"&adres="+adres+""));
+            connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
     private static String encodeValue(String value) {
         try {

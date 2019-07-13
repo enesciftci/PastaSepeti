@@ -8,13 +8,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ibrahimenescifti.pastasepeti.DALs.PastaSepetiDAL;
+import com.example.ibrahimenescifti.pastasepeti.Modeller.SepetModel;
 
-import java.util.HashMap;
 import java.util.UUID;
 
 public class UrunDetay extends AppCompatActivity {
 
-    TextView txtUrunDetay,txtUrunAdet,txtUrunFiyat;
+    TextView txtUrunDetay,txtUrunAdet,txtUrunFiyat,txtUrunAdi;
     Button btnArttir,btnAzalt,btnSepeteEkle;
     int adet=1;
     double fiyat;
@@ -25,7 +25,6 @@ public class UrunDetay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_urun_icerik);
         CatchElements();
-        final HashMap<String,String>urun=new HashMap<>();
         Intent i=getIntent();
        final String urunAdi=i.getStringExtra("URUNADI");
        final Double urunFiyat=i.getDoubleExtra("URUNFIYAT",0);
@@ -33,10 +32,11 @@ public class UrunDetay extends AppCompatActivity {
        final String pastaneAdi=i.getStringExtra("PASTANEADI");
        txtUrunDetay.setText(urunDetay);
        txtUrunFiyat.setText(urunFiyat.toString());
+       txtUrunAdi.setText(urunAdi);
+        adet =Integer.parseInt(txtUrunAdet.getText().toString());
        btnArttir.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               adet =Integer.parseInt(txtUrunAdet.getText().toString());
                if(adet<10) {
                    adet=adet+1;
                    fiyat=urunFiyat*adet;
@@ -48,7 +48,6 @@ public class UrunDetay extends AppCompatActivity {
        btnAzalt.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               adet =Integer.parseInt(txtUrunAdet.getText().toString());
                if(adet>1) {
                    adet=adet-1;
                    fiyat=urunFiyat*adet;
@@ -63,6 +62,7 @@ public class UrunDetay extends AppCompatActivity {
                sepetModel.setUrunAdi(urunAdi);
                sepetModel.setUrunDetay(urunDetay);
                sepetModel.setPastaneAdi(pastaneAdi);
+               sepetModel.setUrunAdet(adet);
                sepetModel.setUrunFiyat(Double.parseDouble(txtUrunFiyat.getText().toString()));
                sepetModel.setKullaniciAdi(PastaSepetiDAL.kullaniciBilgileri.getAd());
                sepetModel.setKullaniciSoyad(PastaSepetiDAL.kullaniciBilgileri.getSoyad());
@@ -70,8 +70,13 @@ public class UrunDetay extends AppCompatActivity {
                sepetModel.setKullaniciSehir(PastaSepetiDAL.kullaniciBilgileri.getSehir());
                sepetModel.setKullaniciIlce(PastaSepetiDAL.kullaniciBilgileri.getIlce());
                sepetModel.setKullaniciSemt(PastaSepetiDAL.kullaniciBilgileri.getIlce());
-               sepetModel.setKullaniciAdres(PastaSepetiDAL.kullaniciBilgileri.getAdres());
+              // sepetModel.setKullaniciAdres(PastaSepetiDAL.kullaniciBilgileri.getAdres());
                Sepet.urunler.add(sepetModel);
+               txtUrunAdet.setText("1");
+               adet=1;
+               fiyat=1;
+               finish();
+
            }
        });
     }
@@ -83,5 +88,6 @@ public class UrunDetay extends AppCompatActivity {
         txtUrunDetay=findViewById(R.id.txtUrunDetay);
         txtUrunAdet=findViewById(R.id.txtUrunAdet);
         txtUrunFiyat=findViewById(R.id.txtUrunFiyat);
+        txtUrunAdi=findViewById(R.id.txtUrunAdi);
     }
 }

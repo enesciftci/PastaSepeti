@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Odeme"
+    android:id="@+id/relativeUp">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardAdresler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@+id/txtAdresler"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/grad_bg">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/grad_bg"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_centerInParent="true"
+
+                android:text="@string/title_adresler"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="0dp"
+                android:text=">"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/txtAdresler"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="25sp"
+        android:text="@string/title_odemeBaslik"
+        android:gravity="center_horizontal|center"
+        android:background="@drawable/grad_bg"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/txtSepet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAdresler"
+        android:text="@string/title_sepet"
+        android:textSize="25sp"
+        android:layout_marginTop="90dp"
+        android:gravity="center_horizontal|center"
+        android:background="@drawable/grad_bg"
+        android:textColor="@color/white"/>
+
+    <ListView
+        android:id="@+id/tumUrunlerListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txtOdemeBilgileri"
+        android:layout_below="@+id/txtSepet"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="30dp" />
+
+    <TextView
+        android:id="@+id/txtOdemeBilgileri"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/radioGroup"
+        android:background="@drawable/grad_bg"
+        android:gravity="center_horizontal|center"
+        android:text="@string/title_odemeBilgileri"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/txtTutarBaslik"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/txtOdemeBilgileri"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="565dp"
+        android:text="@string/title_odenmesiGerekenTutar"
+        android:textSize="20sp" />
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="85dp"
+            android:layout_marginEnd="0dp"
+            android:background="?android:attr/listDivider" />
+        <TextView
+            android:id="@+id/txtOdemeYontemi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="90dp"
+            android:text="@string/title_odemeYontemi"
+            android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnOdeme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/btn_sepet"
+        android:drawableStart="@drawable/ic_payment"
+        android:paddingStart="33dp"
+        android:paddingEnd="0dp"
+        tools:ignore="MissingConstraints" />
+
+
+    <TextView
+        android:id="@+id/txtToplamTutar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/btnOdeme"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/txtOdemeBilgileri"
+        android:layout_marginTop="565dp"
+        android:layout_marginEnd="33dp"
+        android:text="0"
+        android:textSize="20sp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginBottom="20dp">
+
+            <RadioButton
+                android:id="@+id/radioNakit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:buttonTint="#000000"
+                android:checked="true"
+                android:shadowColor="#000000"
+                android:text="@string/radio_Nakit"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/radioKredi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="15dp"
+                android:buttonTint="#000000"
+                android:shadowColor="#000000"
+                android:text="@string/radio_KrediBanka"
+                android:textSize="20sp" />
+
+        </RadioGroup>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frame" />
+    </RelativeLayout>

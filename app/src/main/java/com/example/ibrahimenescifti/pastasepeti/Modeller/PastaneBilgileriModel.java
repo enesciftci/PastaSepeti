@@ -11,6 +11,15 @@ public class PastaneBilgileriModel {
     private String pastaneSemt;
     private String    pastaneAcilis;
     private String pastaneKapanis;
+    private String  pastaneAdres;
+    public String getPastaneAdres() {
+        return pastaneAdres;
+    }
+
+    public void setPastaneAdres(String pastaneAdres) {
+        this.pastaneAdres = pastaneAdres;
+    }
+
     public String getPastaneAcilis() {
         return pastaneAcilis;
     }

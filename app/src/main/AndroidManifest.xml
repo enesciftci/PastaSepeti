@@ -6,12 +6,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Sepet"></activity>
+        <activity android:name=".Adresler"></activity>
+        <activity android:name=".Odeme" />
+        <activity android:name=".Sepet" />
         <activity android:name=".UrunDetay" />
         <activity android:name=".PastaneIcerik.PastaneIcerik" />
         <activity
@@ -45,7 +45,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

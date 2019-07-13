@@ -13,6 +13,7 @@
     <gradient
         android:angle="0"
         android:endColor="@color/gradStop"
+        android:centerColor="@color/gradMid"
         android:startColor="@color/gradStart"
         android:type="linear" />
 

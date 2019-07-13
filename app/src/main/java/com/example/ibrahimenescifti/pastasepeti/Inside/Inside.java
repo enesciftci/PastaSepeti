@@ -11,9 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.example.ibrahimenescifti.pastasepeti.Anasayfa.Activity_Login;
-import com.example.ibrahimenescifti.pastasepeti.DALs.PastaSepetiDAL;
 import com.example.ibrahimenescifti.pastasepeti.R;
 import com.example.ibrahimenescifti.pastasepeti.Sepet;
 
@@ -22,13 +19,10 @@ import static com.example.ibrahimenescifti.pastasepeti.R.id.frame;
 public class Inside extends AppCompatActivity {
     private TextView mTextMessage;
     private Button btnSepet;
-    //    BottomNavigationView view=findViewById(R.id.nav_view);
-    PastaSepetiDAL pastaSepetiDAL = new PastaSepetiDAL();
     PastanelerFragment pastanelerFragment = new PastanelerFragment();
     AyarlarFragment ayarlarFragment = new AyarlarFragment();
     SiparislerFragment siparislerFragment = new SiparislerFragment();
     AnasayfaFragment anasayfaFragment = new AnasayfaFragment();
-    public static String il, ilce, semt;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -70,20 +64,8 @@ public class Inside extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inside);
-        Intent i = getIntent();
-        String mail = i.getStringExtra(Activity_Login.MAIL);
-        String pass = i.getStringExtra(Activity_Login.PASS);
         btnSepet = findViewById(R.id.btnSepet);
-        try {
-            Thread.sleep(1500);
-            il = PastaSepetiDAL.kullaniciBilgileri.getSehir();
-            ilce = PastaSepetiDAL.kullaniciBilgileri.getIlce();
-            semt = PastaSepetiDAL.kullaniciBilgileri.getSemt();
-            pastaSepetiDAL.GetPastaneCalistir(il, ilce, semt);
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         setFragment(anasayfaFragment);
         mTextMessage = findViewById(R.id.message);

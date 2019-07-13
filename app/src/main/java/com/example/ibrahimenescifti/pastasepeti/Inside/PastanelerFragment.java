@@ -30,46 +30,56 @@ public class PastanelerFragment extends android.app.Fragment {
     public PastanelerFragment() {
         // Required empty public constructor
     }
+
     ListView pastanelerListview;
     ArrayAdapter<String> pastanelerAdapter;
     PastaneBilgileriModel pastaneBilgileriModel = new PastaneBilgileriModel();
     PastaSepetiDAL pastaSepetiDAL = new PastaSepetiDAL();
+    public static String pastaneAdi = "";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pastaneler, container, false);
-        ArrayList pastanelerArray= new ArrayList();
-        final HashMap<String,UUID>pastaneIcerikMap=new HashMap<>();
+        try {
+            String il = PastaSepetiDAL.kullaniciBilgileri.getSehir();
+            String ilce = PastaSepetiDAL.kullaniciBilgileri.getIlce();
+            String semt = PastaSepetiDAL.kullaniciBilgileri.getSemt();
+            pastaSepetiDAL.GetPastaneCalistir(il, ilce, semt);
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ArrayList<String> pastanelerArray = new ArrayList<>();
+        final HashMap<String, UUID> pastaneIcerikMap = new HashMap<>();
         pastanelerListview = view.findViewById(R.id.pastanelerListview);
 
         try {
-            for (int i = 0; i < pastaSepetiDAL.PastaneBilgilerList.size(); i++) {
+            for (int i = 0; i < PastaSepetiDAL.PastaneBilgilerList.size(); i++) {
 
                 ObjectMapper mapper = new ObjectMapper();
                 pastaneBilgileriModel = mapper.readValue(PastaSepetiDAL.PastaneBilgilerList.get(i), PastaneBilgileriModel.class);
                 pastanelerArray.add(pastaneBilgileriModel.getPastaneAdi());
                 pastaneIcerikMap.put(pastaneBilgileriModel.getPastaneAdi(), pastaneBilgileriModel.getPastaneId());
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        pastanelerAdapter = new ArrayAdapter(view.getContext(), android.R.layout.simple_list_item_1, pastanelerArray);
+        pastanelerAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, pastanelerArray);
         pastanelerListview.setAdapter(pastanelerAdapter);
 
         pastanelerListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent i =new Intent(view.getContext(), PastaneIcerik.class);
-               String pastaneAdi= parent.getItemAtPosition(position).toString();
-                i.putExtra("id",pastaneIcerikMap.get(pastaneAdi).toString());
-                i.putExtra("position",""+position);
+                Intent i = new Intent(view.getContext(), PastaneIcerik.class);
+                pastaneAdi = parent.getItemAtPosition(position).toString();
+                i.putExtra("id", pastaneIcerikMap.get(pastaneAdi).toString());
+                i.putExtra("position", "" + position);
                 startActivity(i);
             }
         });
         return view;
     }
-
-
 }

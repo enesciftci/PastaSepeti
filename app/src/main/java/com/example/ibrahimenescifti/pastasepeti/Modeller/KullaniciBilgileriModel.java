@@ -12,8 +12,15 @@ public class KullaniciBilgileriModel {
     String Sehir;
     String Ilce;
     String Semt;
-    String Adres;
     String Sifre;
+    public UUID getKullaniciId() {
+        return KullaniciId;
+    }
+
+    public void setKullaniciId(UUID kullaniciId) {
+        KullaniciId = kullaniciId;
+    }
+
     public String getAd() {
         return Ad;
     }
@@ -68,14 +75,6 @@ public class KullaniciBilgileriModel {
 
     public void setSemt(String semt) {
         Semt = semt;
-    }
-
-    public String getAdres() {
-        return Adres;
-    }
-
-    public void setAdres(String adres) {
-        Adres = adres;
     }
 
     public String getSifre() {
