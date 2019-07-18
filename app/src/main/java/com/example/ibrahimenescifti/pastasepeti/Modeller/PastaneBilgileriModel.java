@@ -12,6 +12,8 @@ public class PastaneBilgileriModel {
     private String    pastaneAcilis;
     private String pastaneKapanis;
     private String  pastaneAdres;
+
+
     public String getPastaneAdres() {
         return pastaneAdres;
     }

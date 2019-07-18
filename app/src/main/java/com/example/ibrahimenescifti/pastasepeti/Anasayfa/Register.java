@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Register extends AppCompatActivity {
-    ArrayAdapter<String> illerAdapter;
-    public ArrayAdapter<SehirlerIlcelerSemtlerModel> ilcelerAdapter;
-    public ArrayAdapter<String> semtlerAdapter;
+   public  ArrayAdapter<String> illerAdapter;
+    public  ArrayAdapter<SehirlerIlcelerSemtlerModel> ilcelerAdapter;
+    public  ArrayAdapter<String> semtlerAdapter;
     PastaSepetiDAL pastaSepetiDAL = new PastaSepetiDAL();
     PastaSepetiSQLiteDal pastaSepetiSQLiteDal = new PastaSepetiSQLiteDal();
 

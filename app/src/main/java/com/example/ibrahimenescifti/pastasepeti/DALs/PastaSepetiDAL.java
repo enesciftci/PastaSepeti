@@ -7,17 +7,24 @@ import com.example.ibrahimenescifti.pastasepeti.Modeller.KullaniciBilgileriModel
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.UUID;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class PastaSepetiDAL {
 
@@ -29,10 +36,84 @@ public class PastaSepetiDAL {
     public boolean girisDurumu;
     public static KullaniciAdreslerModel kullaniciAdreslerModel=new KullaniciAdreslerModel();
    public static KullaniciBilgileriModel kullaniciBilgileri=new KullaniciBilgileriModel();
+   public HttpURLConnection conn;
+    JSONObject postDataParams;
+   public void postBaglanti(URL url) {
+       try {
+          conn = (HttpURLConnection) url.openConnection();
+           conn.setReadTimeout(3000 /* milliseconds */);
+           conn.setConnectTimeout(3000 /* milliseconds */);
+           conn.setRequestMethod("POST"); // Web Sayfasına post tipinde istekte bulun
+           conn.setDoInput(true);
+           conn.setDoOutput(true);
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+   }
+   public String postVeriGonder()
+   {
+       try{
+           OutputStream os = conn.getOutputStream();
+           BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+           writer.write(getPostDataString(postDataParams));
 
+           writer.flush();
+           writer.close();
+           os.close();
+
+           int responseCode=conn.getResponseCode();
+
+           if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+               BufferedReader in=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+               StringBuffer sb = new StringBuffer("");
+               String line;
+
+               while((line = in.readLine()) != null) {
+
+                   sb.append(line);
+                   break;
+               }
+
+               in.close();
+               return sb.toString();
+
+           }
+           else {
+               return "false : "+responseCode;
+           }
+       }
+       catch(Exception e){
+           return "Exception: " + e.getMessage();
+       }
+   }
+    public String getPostDataString(JSONObject params) throws Exception {
+
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+
+        Iterator itr = params.keys();
+
+        while(itr.hasNext()){
+
+            String key= itr.next().toString();
+            Object value = params.get(key);
+
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(key, "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(value.toString(), "UTF-8"));
+
+        }
+        return result.toString();
+    }
     public void GetUyeServisCalistir(String mail, String pass) {
 
-        new GetUyeServis().execute(_url, mail, pass);
+        new GetUyeServis().execute(mail, pass);
     }
 
    static class GetUyeServis extends AsyncTask<String, String, String> {
@@ -43,7 +124,7 @@ public class PastaSepetiDAL {
             BufferedReader br;
             try {
                 String satir ;
-                URL url = new URL(strings[0] + "/pastasepeti.asmx/GetUye?email=" + strings[1] + "&sifre=" + strings[2]);
+                URL url = new URL(_url + "pastasepeti.asmx/GetUye?email=" + strings[0] + "&sifre=" + strings[1]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
                 InputStream is = connection.getInputStream();
@@ -57,7 +138,7 @@ public class PastaSepetiDAL {
                 JSONArray jsonArray=new JSONArray(dosya);
                 for (int i=0;i<jsonArray.length();i++) {
                     ObjectMapper mapper = new ObjectMapper();
-                    kullaniciBilgileri = mapper.readValue(PastaSepetiDAL.UyeBilgilerList.get(0), KullaniciBilgileriModel.class);
+                    kullaniciBilgileri = mapper.readValue(UyeBilgilerList.get(0), KullaniciBilgileriModel.class);
                 }
 
             } catch (Exception e) {
@@ -88,14 +169,14 @@ public class PastaSepetiDAL {
 
                 UyeBilgilerList.add(jsonArray.getString(i));
             } ObjectMapper mapper = new ObjectMapper();
-            kullaniciBilgileri = mapper.readValue(PastaSepetiDAL.UyeBilgilerList.get(0), KullaniciBilgileriModel.class);
+            kullaniciBilgileri = mapper.readValue(UyeBilgilerList.get(0), KullaniciBilgileriModel.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return xml;
     }
     public void GetUyeKontrolCalistir(String mail, String pass) {
-        new GetUyeKontrol().execute(_url, mail, pass);
+        new GetUyeKontrol().execute(mail, pass);
 
     }
 
@@ -103,12 +184,12 @@ public class PastaSepetiDAL {
 
         @Override
         protected String doInBackground(String... strings) {
-            String dosya = "";
+            StringBuilder dosya = new StringBuilder();
             HttpURLConnection connection ;
             BufferedReader br ;
             try {
                 String satir ;
-                URL url = new URL(strings[0] + "pastasepeti.asmx/UyeGiris?Mail=" + strings[1] + "&Sifre=" + strings[2]);
+                URL url = new URL(_url+ "pastasepeti.asmx/UyeGiris?Mail=" + strings[0] + "&Sifre=" + strings[1]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
 
@@ -117,15 +198,15 @@ public class PastaSepetiDAL {
                 br = new BufferedReader(new InputStreamReader(is));
 
                 while ((satir = br.readLine()) != null) {
-                    dosya += satir;
+                    dosya.append(satir);
                 }
-                xmlTemizleGetUyeKontrol(dosya);
+                xmlTemizleGetUyeKontrol(dosya.toString());
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            return dosya;
+            return dosya.toString();
         }
 
         private boolean xmlTemizleGetUyeKontrol(String xml) {
@@ -162,7 +243,7 @@ public class PastaSepetiDAL {
         new UyeKayit().execute(bilgiler);
     }
 
-   static class UyeKayit extends AsyncTask<String, String, String> {
+    class UyeKayit extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -175,16 +256,24 @@ public class PastaSepetiDAL {
 
         @Override
         protected String doInBackground(String... strings) {
-            HttpURLConnection connection ;
-
             try {
-                URL url = new URL(_url +("pastasepeti.asmx/UyeEkle?kullaniciAdi="+strings[0]+"&kullaniciSoyadi="+strings[1]+"&kullaniciMail="+strings[2]+"&kullaniciTelefonNumarasi="+strings[3]+"&kullaniciSehir="+strings[4]+"&kullaniciIlce="+strings[5]+"&kullaniciSemt="+strings[6]+"&kullaniciSifre="+strings[7]+""));
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-            } catch (Exception e) {
+
+                URL url = new URL(_url + "pastasepeti.asmx/UyeEkle"); //İstekte bulunulacak sayfa
+
+                 postDataParams = new JSONObject();
+                postDataParams.put("kullaniciAdi", strings[0]);
+                postDataParams.put("kullaniciSoyadi", strings[1]);
+                postDataParams.put("kullaniciMail", strings[2]);
+                postDataParams.put("kullaniciTelefonNumarasi", strings[3]);
+                postDataParams.put("kullaniciSehir", strings[4]);
+                postDataParams.put("kullaniciIlce", strings[5]);
+                postDataParams.put("kullaniciSemt", strings[6]);
+                postDataParams.put("kullaniciSifre", strings[7]);
+                postBaglanti(url);
+            }catch (Exception e) {
                 e.printStackTrace();
             }
-            return null;
+          return postVeriGonder();
         }
     }
 
@@ -229,20 +318,19 @@ public class PastaSepetiDAL {
         protected String doInBackground(String... strings) {
             try {
                 PastaneBilgilerList.removeAll(PastaneBilgilerList);
-                String dosya = "";
+                StringBuilder dosya=new StringBuilder();
                 BufferedReader br ;
                URL url = new URL(_url + "pastasepeti.asmx/GetPastane?il="+strings[0]+"&ilce="+strings[1]+"&semt="+strings[2]+"");
-               URL url1=new URL(url.toString());
-                connection = (HttpURLConnection) url1.openConnection();
+                connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
                 InputStream is = connection.getInputStream();
                 String satir ;
                 br = new BufferedReader(new InputStreamReader(is));
                 while ((satir = br.readLine()) != null) {
-                    dosya += satir;
+                    dosya.append(satir);
                 }
-              dosya=xmlTemizle(dosya);
-                JSONArray jsonArray=new JSONArray(dosya);
+
+                JSONArray jsonArray=new JSONArray( xmlTemizle(dosya.toString()));
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                    PastaneBilgilerList.add(jsonArray.getString(i));
@@ -253,13 +341,13 @@ public class PastaSepetiDAL {
             }
             return null;
         }
-public String  xmlTemizle(String xml)
-{
-    xml = xml.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
-    xml = xml.replace("<string xmlns=\"http://tempuri.org/\">", "");
-    xml = xml.replace("</string>", "");
-    return xml;
-}
+        public String  xmlTemizle(String xml) {
+
+            xml = xml.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
+            xml = xml.replace("<string xmlns=\"http://tempuri.org/\">", "");
+            xml = xml.replace("</string>", "");
+            return xml;
+        }
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -291,7 +379,7 @@ public String  xmlTemizle(String xml)
             try {
 
                 PastaneIcerikList.removeAll(PastaneIcerikList);
-                String dosya = "";
+                StringBuilder dosya = new StringBuilder();
                 BufferedReader br ;
                 URL url = new URL(_url + "pastasepeti.asmx/GetPastaneIcerik?pastaneId=" + strings[0] + "");
                 connection = (HttpURLConnection) url.openConnection();
@@ -301,11 +389,9 @@ public String  xmlTemizle(String xml)
                 br = new BufferedReader(new InputStreamReader(is));
 
                 while ((satir = br.readLine()) != null) {
-                    dosya += satir;
+                    dosya.append(satir);
                 }
-
-                dosya = xmlTemizle(dosya);
-                JSONArray jsonArray = new JSONArray(dosya);
+                JSONArray jsonArray = new JSONArray(xmlTemizle(dosya.toString()));
                 for (int i = 0; i < jsonArray.length(); i++) {
                     PastaneIcerikList.add(jsonArray.getString(i));
                 }
@@ -345,7 +431,7 @@ public String  xmlTemizle(String xml)
             try {
 
                 AdresList.clear();
-                String dosya = "";
+                StringBuilder dosya = new StringBuilder();
                 BufferedReader br ;
                 URL url = new URL(_url + ("pastasepeti.asmx/GetAdresler?kullaniciId="+strings[0]+""));
                 connection = (HttpURLConnection) url.openConnection();
@@ -354,10 +440,9 @@ public String  xmlTemizle(String xml)
                 String satir ;
                 br = new BufferedReader(new InputStreamReader(is));
                 while ((satir = br.readLine()) != null) {
-                    dosya += satir;
+                    dosya.append(satir);
                 }
-                dosya = xmlTemizleGetAdres(dosya);
-                JSONArray jsonArray = new JSONArray(dosya);
+                JSONArray jsonArray = new JSONArray(xmlTemizleGetAdres(dosya.toString()));
                 for (int i = 0; i < jsonArray.length(); i++) {
                     AdresList.add(jsonArray.getString(i));
                 }
@@ -368,29 +453,35 @@ public String  xmlTemizle(String xml)
             return null;
         }
     }
-    private void AdresGuncelle(UUID adresId,String adres)
+    private String AdresGuncelle(UUID adresId,String adres)
     {
-        HttpURLConnection connection ;
-
         try {
-            URL url = new URL(_url +("pastasepeti.asmx/AdresGuncelle?adresId="+adresId.toString()+"&adres="+adres+""));
-            connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
-        } catch (Exception e) {
+
+            URL url = new URL(_url + "pastasepeti.asmx/AdresGuncelle"); //İstekte bulunulacak sayfa
+            postDataParams = new JSONObject();
+            postDataParams.put("adresId", adresId.toString());
+            postDataParams.put("adres", adres);
+            postBaglanti(url);
+        }catch (Exception e) {
             e.printStackTrace();
         }
+        return postVeriGonder();
     }
-    private void AdresEkle (UUID kullaniciId,String adres)
+
+    private String AdresEkle (UUID kullaniciId,String adres)
     {
-        HttpURLConnection connection ;
 
         try {
-            URL url = new URL(_url +(" pastasepeti.asmx/AdresEkle?kullaniciId="+kullaniciId.toString()+"&adres="+adres+""));
-            connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
-        } catch (Exception e) {
+
+            URL url = new URL(_url + "pastasepeti.asmx/AdresEkle"); //İstekte bulunulacak sayfa
+            postDataParams = new JSONObject();
+            postDataParams.put("kullaniciId", kullaniciId.toString());
+            postDataParams.put("adres", adres);
+            postBaglanti(url);
+        }catch (Exception e) {
             e.printStackTrace();
         }
+        return postVeriGonder();
 
     }
     private static String encodeValue(String value) {
@@ -399,4 +490,5 @@ public String  xmlTemizle(String xml)
         } catch (UnsupportedEncodingException ex) {
             throw new RuntimeException(ex.getCause());
         }
-}}
+    }
+}

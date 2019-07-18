@@ -1,28 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Adresler">
+    tools:context=".Adresler"
+    android:background="@drawable/grad_bg">
 
-    <ListView
-        android:id="@+id/listAdresler"
+
+    <TextView
+        android:id="@+id/txtAdresler"
         android:layout_width="match_parent"
-        android:layout_height="205dp"
-        android:layout_marginTop="70dp" />
+        android:layout_height="40dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:background="@drawable/grad_bg"
+        android:gravity="center_horizontal|center"
+        android:text="@string/title_odemeBaslik"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
 
     <LinearLayout
-        android:id="@+id/linearIl"
-        android:layout_below="@id/listAdresler"
+        android:id="@+id/linearAdresTipi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/txtAdresler"
+        android:layout_marginRight="5dp"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-light"
+            android:text="Adres Tipi"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <Spinner
+            android:id="@+id/spn_adresTipi"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/et_bg"
+            android:entries="@array/iller"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal|center"
+            android:spinnerMode="dropdown"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearIl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-light"
             android:text="İl"
             android:textAllCaps="true"
@@ -30,9 +71,10 @@
             android:textSize="15sp" />
 
         <Spinner
-            android:id="@+id/spn_city"
+            android:id="@+id/spn_sehir"
             android:layout_width="match_parent"
             android:layout_height="35dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/et_bg"
             android:entries="@array/iller"
             android:fontFamily="sans-serif-light"
@@ -44,15 +86,18 @@
 
     <LinearLayout
         android:id="@+id/linearIlce"
-        android:layout_below="@id/linearIl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/linearIl"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-light"
             android:text="İlçe"
             android:textAllCaps="true"
@@ -60,12 +105,12 @@
             android:textSize="15sp" />
 
         <Spinner
-            android:id="@+id/spn_district"
+            android:id="@+id/spn_ilce"
             android:layout_width="match_parent"
             android:layout_height="35dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/et_bg"
             android:entries="@array/iller"
-
             android:fontFamily="sans-serif-light"
             android:gravity="center_horizontal|center"
             android:spinnerMode="dropdown"
@@ -73,15 +118,20 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@id/linearIlce"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_below="@id/linearIlce"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="5dp"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-light"
             android:text="Semt"
             android:textAllCaps="true"
@@ -89,40 +139,47 @@
             android:textSize="15sp" />
 
         <Spinner
-            android:id="@+id/spn_neighborhood"
+            android:id="@+id/spn_semtler"
             android:layout_width="match_parent"
             android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:background="@drawable/et_bg"
             android:entries="@array/iller"
-
             android:fontFamily="sans-serif-light"
             android:gravity="center_horizontal|center"
             android:spinnerMode="dropdown"
             android:textColor="@color/white" />
 
-        <EditText
-            android:id="@+id/edtAdres"
-            android:layout_width="match_parent"
-            android:layout_height="77dp"
-            android:layout_marginTop="20dp"
-
-            android:layout_marginBottom="68dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:text="buras multi text"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_kaydet"
+    <EditText
+        android:id="@+id/edtAdres"
         android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="240dp"
+        android:ems="10"
+        android:hint="Açık Adresinizi Girin"
+        android:inputType="textMultiLine"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btn_adresKaydet"
+        android:layout_width="309dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="89dp"
-       android:layout_below="@+id/linearIlce"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="116dp"
         android:background="@drawable/btn_bg"
         android:fontFamily="sans-serif-medium"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
         android:text="Kaydet"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="15sp" />
+        android:textSize="16sp" />
 </RelativeLayout>
