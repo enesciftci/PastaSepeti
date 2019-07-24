@@ -56,9 +56,8 @@ public class PastanelerFragment extends android.app.Fragment {
         pastanelerListview = view.findViewById(R.id.pastanelerListview);
 
         try {
+            ObjectMapper mapper = new ObjectMapper();
             for (int i = 0; i < PastaSepetiDAL.PastaneBilgilerList.size(); i++) {
-
-                ObjectMapper mapper = new ObjectMapper();
                 pastaneBilgileriModel = mapper.readValue(PastaSepetiDAL.PastaneBilgilerList.get(i), PastaneBilgileriModel.class);
                 pastanelerArray.add(pastaneBilgileriModel.getPastaneAdi());
                 pastaneIcerikMap.put(pastaneBilgileriModel.getPastaneAdi(), pastaneBilgileriModel.getPastaneId());

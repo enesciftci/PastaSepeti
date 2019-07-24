@@ -1,9 +1,11 @@
 package com.example.ibrahimenescifti.pastasepeti.DALs;
 
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 
-import com.example.ibrahimenescifti.pastasepeti.Modeller.KullaniciAdreslerModel;
 import com.example.ibrahimenescifti.pastasepeti.Modeller.KullaniciBilgileriModel;
+import com.example.ibrahimenescifti.pastasepeti.Modeller.SiparisBilgileriModel;
+import com.example.ibrahimenescifti.pastasepeti.Sepet;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONArray;
@@ -34,10 +36,9 @@ public class PastaSepetiDAL {
    public static ArrayList<String >PastaneIcerikList=new ArrayList<>();
    public static ArrayList<String> AdresList=new ArrayList<>();
     public boolean girisDurumu;
-    public static KullaniciAdreslerModel kullaniciAdreslerModel=new KullaniciAdreslerModel();
    public static KullaniciBilgileriModel kullaniciBilgileri=new KullaniciBilgileriModel();
    public HttpURLConnection conn;
-    JSONObject postDataParams;
+   private JSONObject postDataParams;
    public void postBaglanti(URL url) {
        try {
           conn = (HttpURLConnection) url.openConnection();
@@ -53,10 +54,11 @@ public class PastaSepetiDAL {
    public String postVeriGonder()
    {
        try{
+
            OutputStream os = conn.getOutputStream();
            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
            writer.write(getPostDataString(postDataParams));
-
+           StringBuffer sb=null;
            writer.flush();
            writer.close();
            os.close();
@@ -64,28 +66,29 @@ public class PastaSepetiDAL {
            int responseCode=conn.getResponseCode();
 
            if (responseCode == HttpsURLConnection.HTTP_OK) {
-
                BufferedReader in=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-               StringBuffer sb = new StringBuffer("");
                String line;
-
+               sb = new StringBuffer("");
                while((line = in.readLine()) != null) {
 
                    sb.append(line);
                    break;
                }
-
                in.close();
+               System.out.println("Burası if içi"+ sb+""+responseCode);
                return sb.toString();
 
            }
            else {
+               System.out.println("Burası else içi"+ sb+""+responseCode);
                return "false : "+responseCode;
            }
        }
        catch(Exception e){
+           System.out.println("Burası catch içi");
            return "Exception: " + e.getMessage();
        }
+
    }
     public String getPostDataString(JSONObject params) throws Exception {
 
@@ -136,8 +139,8 @@ public class PastaSepetiDAL {
                 }
                 dosya=xmlTemizle(dosya);
                 JSONArray jsonArray=new JSONArray(dosya);
+                ObjectMapper mapper = new ObjectMapper();
                 for (int i=0;i<jsonArray.length();i++) {
-                    ObjectMapper mapper = new ObjectMapper();
                     kullaniciBilgileri = mapper.readValue(UyeBilgilerList.get(0), KullaniciBilgileriModel.class);
                 }
 
@@ -259,7 +262,6 @@ public class PastaSepetiDAL {
             try {
 
                 URL url = new URL(_url + "pastasepeti.asmx/UyeEkle"); //İstekte bulunulacak sayfa
-
                  postDataParams = new JSONObject();
                 postDataParams.put("kullaniciAdi", strings[0]);
                 postDataParams.put("kullaniciSoyadi", strings[1]);
@@ -453,7 +455,7 @@ public class PastaSepetiDAL {
             return null;
         }
     }
-    private String AdresGuncelle(UUID adresId,String adres)
+    public String AdresGuncelle(UUID adresId,String adres)
     {
         try {
 
@@ -468,20 +470,115 @@ public class PastaSepetiDAL {
         return postVeriGonder();
     }
 
-    private String AdresEkle (UUID kullaniciId,String adres)
+    class AdresEkle extends AsyncTask<String,String,String>
     {
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
 
-        try {
-
-            URL url = new URL(_url + "pastasepeti.asmx/AdresEkle"); //İstekte bulunulacak sayfa
-            postDataParams = new JSONObject();
-            postDataParams.put("kullaniciId", kullaniciId.toString());
-            postDataParams.put("adres", adres);
-            postBaglanti(url);
-        }catch (Exception e) {
-            e.printStackTrace();
+                URL url = new URL(_url + "pastasepeti.asmx/AdresEkle"); //İstekte bulunulacak sayfa
+                postDataParams = new JSONObject();
+                postDataParams.put("kullaniciId", strings[0]);
+                postDataParams.put("kullaniciAdres", strings[1]);
+                postDataParams.put("kullaniciSehir",strings[2]);
+                postDataParams.put("kullaniciIlce",strings[3]);
+                postDataParams.put("kullaniciSemt",strings[4]);
+                postDataParams.put("adresTipi",strings[5]);
+                postDataParams.put("adresBasligi",strings[6]);
+                postBaglanti(url);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+            return postVeriGonder();
         }
-        return postVeriGonder();
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
+    public void AdresEkleCalistir (String []adresBilgileri)
+    {
+       new AdresEkle().execute(adresBilgileri);
+    }
+    public void  SiparisGecCalistir(ArrayList<SiparisBilgileriModel> sepet)
+    {
+        new SiparisGec().execute(sepet);
+    }
+    class SiparisGec extends AsyncTask<ArrayList<SiparisBilgileriModel>,ArrayList<SiparisBilgileriModel>,ArrayList<SiparisBilgileriModel>>
+    {
+        @Nullable
+        @SafeVarargs
+        @Override
+        protected final ArrayList<SiparisBilgileriModel> doInBackground(ArrayList<SiparisBilgileriModel>... siparisBilgileriModels) {
+            UUID siparisNo =UUID.randomUUID();
+            URL url=null;
+            JSONArray array=null;
+            try{
+                array=new JSONArray();
+                url = new URL(_url + "pastasepeti.asmx/Siparisver");
+
+            }catch (Exception e){
+
+            }
+            postDataParams = new JSONObject();
+
+            for (int i = 0; i<Sepet.urunler.size(); i++) {
+                try {
+                    SiparisBilgileriModel siparisBilgileriModel = siparisBilgileriModels[0].get(i);
+
+                    JSONObject item=new JSONObject();
+                    item.put("siparisNo", siparisNo);
+                    item.put("pastaneId", siparisBilgileriModel.getPastaneId());
+                    item.put("kullaniciId", siparisBilgileriModel.getKullaniciId());
+                    item.put("kullaniciAdi", siparisBilgileriModel.getKullaniciAdi());
+                    item.put("kullaniciSoyad", siparisBilgileriModel.getKullaniciSoyad());
+                    item.put("kullaniciTelefonNumarasi", siparisBilgileriModel.getKullaniciTelefonNumarasi());
+                    item.put("kullaniciSehir", siparisBilgileriModel.getKullaniciSehir());
+                    item.put("kullaniciIlce", siparisBilgileriModel.getKullaniciIlce());
+                    item.put("kullaniciSemt", siparisBilgileriModel.getKullaniciSemt());
+                    item.put("kullaniciAdres", siparisBilgileriModel.getKullaniciAdres());
+                    item.put("pastaneAdi", siparisBilgileriModel.getPastaneAdi());
+                    item.put("urunAdi", siparisBilgileriModel.getUrunAdi());
+                    item.put("urunDetay", siparisBilgileriModel.getUrunDetay());
+                    item.put("siparisNotu", siparisBilgileriModel.getSiparisNotu());
+                    item.put("urunFiyat", siparisBilgileriModel.getUrunFiyat());
+                    // postDataParams.put("siparisTarihi",null);//server saatini aldr
+                    item.put("durum", siparisBilgileriModel.isDurum());
+                    item.put("urunAdet", siparisBilgileriModel.getUrunAdet());
+                    item.put("odemeTuru", siparisBilgileriModel.getOdemeTuru());
+                    ////////////////////////////////////////
+                    array.put(item);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+            try {
+                postDataParams.put("order_array", array);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            postBaglanti(url);
+            postVeriGonder();
+            return null;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<SiparisBilgileriModel> siparisBilgileriModel) {
+            super.onPostExecute(siparisBilgileriModel);
+        }
 
     }
     private static String encodeValue(String value) {

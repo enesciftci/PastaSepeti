@@ -1,4 +1,4 @@
-package com.example.ibrahimenescifti.pastasepeti.PastaneIcerik;
+package com.example.ibrahimenescifti.pastasepeti.Modeller;
 
 import java.util.UUID;
 

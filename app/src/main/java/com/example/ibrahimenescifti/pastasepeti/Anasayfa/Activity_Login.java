@@ -24,7 +24,6 @@ public class Activity_Login extends AppCompatActivity {
     Button login, forgot, register;
     PastaSepetiDAL pastaSepetiDAL=new PastaSepetiDAL();
   public static   KullaniciBilgileriModel kullaniciBilgileri=new KullaniciBilgileriModel();
-
     String Url,mail,pass;
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
@@ -34,12 +33,10 @@ public class Activity_Login extends AppCompatActivity {
             rellay2.setVisibility(View.VISIBLE);
         }
     };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         rellay1 = findViewById(R.id.rellay1);
         rellay2 = findViewById(R.id.rellay2);
         handler.postDelayed(runnable, 2000);
@@ -102,6 +99,8 @@ public class Activity_Login extends AppCompatActivity {
            }
        });
     }
+
+
     private void CatchElements() {
         edt_mail = findViewById(R.id.edt_userName);
         edt_pass = findViewById(R.id.edt_password);

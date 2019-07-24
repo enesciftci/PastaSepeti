@@ -1,5 +1,6 @@
 package com.example.ibrahimenescifti.pastasepeti;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.ibrahimenescifti.pastasepeti.DALs.PastaSepetiDAL;
 import com.example.ibrahimenescifti.pastasepeti.DALs.PastaSepetiSQLiteDal;
 import com.example.ibrahimenescifti.pastasepeti.Modeller.KullaniciAdreslerModel;
 import com.example.ibrahimenescifti.pastasepeti.Modeller.SehirlerIlcelerSemtlerModel;
@@ -16,22 +18,27 @@ import com.example.ibrahimenescifti.pastasepeti.Modeller.SehirlerIlcelerSemtlerM
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class Adresler extends AppCompatActivity {
 
     PastaSepetiSQLiteDal pastaSepetiSQLiteDal = new PastaSepetiSQLiteDal();
+    PastaSepetiDAL pastaSepetiDAL;
     public ArrayAdapter<String> illerAdapter;
     public ArrayAdapter<SehirlerIlcelerSemtlerModel> ilcelerAdapter;
     public ArrayAdapter<String> semtlerAdapter;
     Button btn_adresKaydet;
     KullaniciAdreslerModel kullaniciAdreslerModel = new KullaniciAdreslerModel();
-    Spinner spn_sehir, spn_ilce, spn_semt;
-    EditText edt_AdresDetay;
+    Spinner spn_sehir, spn_ilce, spn_semt, spn_adresTipi;
+    EditText edt_AdresDetay, edt_AdresBasligi;
+    String kullaniciID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adresler);
+        Intent intent = getIntent();
+        kullaniciID = intent.getStringExtra("KULLANICIID");
         catchElements();
         List<String> sehirler = new ArrayList<>();
         sehirler.addAll(pastaSepetiSQLiteDal.sehirGetir(this));
@@ -94,16 +101,47 @@ public class Adresler extends AppCompatActivity {
 
             }
         });
+        spn_adresTipi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                kullaniciAdreslerModel.setAdresTipi(spn_adresTipi.getItemAtPosition(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         btn_adresKaydet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                kullaniciAdreslerModel.setKullaniciAdres(edt_AdresDetay.getText().toString());
+                pastaSepetiDAL = new PastaSepetiDAL();
+                List<String>adresDetay=new ArrayList<>();
+                adresDetay.add(edt_AdresDetay.getText().toString());
+                kullaniciAdreslerModel.setKullaniciAdres(adresDetay);
+                kullaniciAdreslerModel.setKullaniciId(UUID.fromString(kullaniciID));
+                kullaniciAdreslerModel.setAdresBasligi(edt_AdresBasligi.getText().toString());
+                String[]adresBilgileri=new String[]
+                        {
+                                kullaniciAdreslerModel.getKullaniciId().toString(),
+                                kullaniciAdreslerModel.getKullaniciAdres().get(0),
+                                kullaniciAdreslerModel.getKullaniciSehir(),
+                                kullaniciAdreslerModel.getKullaniciIlce(),
+                                kullaniciAdreslerModel.getKullaniciSemt(),
+                                kullaniciAdreslerModel.getAdresTipi(),
+                                kullaniciAdreslerModel.getAdresBasligi(),
+                        };
+
+                pastaSepetiDAL.AdresEkleCalistir(adresBilgileri);
+                pastaSepetiDAL.AdresGetirCalistir(kullaniciID);
             }
         });
     }
 
     void catchElements() {
-        edt_AdresDetay=findViewById(R.id.edtAdres);
+        edt_AdresBasligi = findViewById(R.id.edt_AdresBasligi);
+        spn_adresTipi = findViewById(R.id.spn_adresTipi);
+        edt_AdresDetay = findViewById(R.id.edtAdres);
         btn_adresKaydet = findViewById(R.id.btn_adresKaydet);
         spn_sehir = findViewById(R.id.spn_sehir);
         spn_ilce = findViewById(R.id.spn_ilce);

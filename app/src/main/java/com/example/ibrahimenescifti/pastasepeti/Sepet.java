@@ -9,19 +9,21 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.ibrahimenescifti.pastasepeti.Modeller.SepetModel;
+import com.example.ibrahimenescifti.pastasepeti.Modeller.SiparisBilgileriModel;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Sepet extends AppCompatActivity {
     TextView txtToplamFiyat, txtPastaneAdi;
-    public static ArrayList<SepetModel> urunler = new ArrayList<>();
+    public static ArrayList<SiparisBilgileriModel> urunler = new ArrayList<>();
     ListView sepetListView;
     ArrayAdapter<String> sepetAdapter;
     Double toplamFiyat = 0.0;
     ArrayList<String> sepet = new ArrayList<>();
     String pastaneAdi = "";
     Button btnOdeme;
+    UUID pastaneId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +37,12 @@ public class Sepet extends AppCompatActivity {
             sepet.add((urunler.get(i).getUrunAdi() + "    Adet:    " + urunler.get(i).getUrunAdet() + "    Fiyat:    " + urunler.get(i).getUrunFiyat()));
             toplamFiyat += urunler.get(i).getUrunFiyat();
             pastaneAdi = urunler.get(i).getPastaneAdi();
+
         }
-        sepetAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, sepet);
-        sepetListView.setAdapter(sepetAdapter);
+            sepetAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, sepet);
+            sepetListView.setAdapter(sepetAdapter);
         txtToplamFiyat.setText(toplamFiyat.toString());
         txtPastaneAdi.setText(pastaneAdi);
-
         btnOdeme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +50,7 @@ public class Sepet extends AppCompatActivity {
                 i.putExtra("SEPET",sepet);
                 i.putExtra("TOPLAM",toplamFiyat);
                 i.putExtra("PASTANEADI",pastaneAdi);
+                i.putExtra("PASTANEID",pastaneId);
                 startActivity(i);
             }
         });

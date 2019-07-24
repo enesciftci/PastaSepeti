@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.ibrahimenescifti.pastasepeti.Modeller.PastaneIcerikModel;
 import com.example.ibrahimenescifti.pastasepeti.R;
 
 import java.util.ArrayList;

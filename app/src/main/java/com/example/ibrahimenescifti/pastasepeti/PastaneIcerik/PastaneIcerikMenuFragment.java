@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.ibrahimenescifti.pastasepeti.DALs.PastaSepetiDAL;
 import com.example.ibrahimenescifti.pastasepeti.Inside.PastanelerFragment;
+import com.example.ibrahimenescifti.pastasepeti.Modeller.PastaneIcerikModel;
 import com.example.ibrahimenescifti.pastasepeti.R;
 import com.example.ibrahimenescifti.pastasepeti.UrunDetay;
 
@@ -24,13 +25,14 @@ import java.util.HashMap;
 public class PastaneIcerikMenuFragment extends Fragment {
     PastaneIcerikModel pastaneIcerikModel = new PastaneIcerikModel();
     public ListView pastaneIcerikMenuListView;
-TextView urunDetay,urunAdi;
+    TextView urunDetay, urunAdi;
+
     public PastaneIcerikMenuFragment() {
         // Required empty public constructor
     }
 
     ArrayAdapter<Object> icerikAdapter;
-   HashMap<String,PastaneIcerikModel> icerikMap = new HashMap<>();
+    HashMap<String, PastaneIcerikModel> icerikMap = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,8 @@ TextView urunDetay,urunAdi;
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pastane_icerik_menu, container, false);
         // Inflate the layout for this fragment
-        urunDetay=view.findViewById(R.id.textViewUrunDetay);
-        urunAdi=view.findViewById(R.id.textViewUrunAdi);
+        urunDetay = view.findViewById(R.id.textViewUrunDetay);
+        urunAdi = view.findViewById(R.id.textViewUrunAdi);
         pastaneIcerikMenuListView = view.findViewById(R.id.pastaneIcerikMenuListView);
         try {
 
@@ -54,10 +56,10 @@ TextView urunDetay,urunAdi;
             e.printStackTrace();
         }
         try {
+            ObjectMapper mapper = new ObjectMapper();
             for (int i = 0; i < PastaSepetiDAL.PastaneIcerikList.size(); i++) {
-                ObjectMapper mapper = new ObjectMapper();
                 pastaneIcerikModel = mapper.readValue(PastaSepetiDAL.PastaneIcerikList.get(i), PastaneIcerikModel.class);
-                icerikMap.put(pastaneIcerikModel.getUrunAdi(),pastaneIcerikModel);
+                icerikMap.put(pastaneIcerikModel.getUrunAdi(), pastaneIcerikModel);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,11 +71,12 @@ TextView urunDetay,urunAdi;
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String seciliUrun = (pastaneIcerikMenuListView.getItemAtPosition(position)).toString();
-                Intent i =new Intent(view.getContext(), UrunDetay.class);
-                i.putExtra("URUNADI",icerikMap.get(seciliUrun).getUrunAdi());
-                i.putExtra("URUNDETAY",icerikMap.get(seciliUrun).getUrunDetay());
-                i.putExtra("URUNFIYAT",icerikMap.get(seciliUrun).getUrunFiyat());
-                i.putExtra("PASTANEADI", PastanelerFragment.pastaneAdi);// burayı doldur içi boş geliyor
+                Intent i = new Intent(view.getContext(), UrunDetay.class);
+                i.putExtra("URUNADI", icerikMap.get(seciliUrun).getUrunAdi());
+                i.putExtra("URUNDETAY", icerikMap.get(seciliUrun).getUrunDetay());
+                i.putExtra("URUNFIYAT", icerikMap.get(seciliUrun).getUrunFiyat());
+                i.putExtra("PASTANEADI", PastanelerFragment.pastaneAdi);
+                i.putExtra("PASTANEID", icerikMap.get(seciliUrun).getPastaneId().toString());
                 startActivity(i);
 
             }

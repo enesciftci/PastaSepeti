@@ -22,8 +22,7 @@ public static  String pastaneId;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-   public static ArrayList urunler=new ArrayList();
-   ListView urunlerList;
+    ListView urunlerList;
 
 @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,31 +66,31 @@ public static  String pastaneId;
     }
 }
 
- class PastaneIcerikAdapter extends FragmentPagerAdapter {
-    private final List<Fragment> mFragmentList = new ArrayList<>();
-    private final List<String> mFragmentTitleList = new ArrayList<>();
+     class PastaneIcerikAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public PastaneIcerikAdapter(FragmentManager manager) {
-        super(manager);
-    }
+        public PastaneIcerikAdapter(FragmentManager manager) {
+            super(manager);
+        }
 
-    @Override
-    public Fragment getItem(int position) {
-        return mFragmentList.get(position);
-    }
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
 
-    @Override
-    public int getCount() {
-        return mFragmentList.size();
-    }
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
 
-    public void addFragment(Fragment fragment, String title) {
-        mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
-    }
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mFragmentTitleList.get(position);
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
-}

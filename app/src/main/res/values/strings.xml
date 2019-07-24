@@ -5,7 +5,13 @@
         <item>value2</item>
     </string-array>
     <string-array name="userInfo">
-
+    </string-array>
+    <string-array name="adresTipleri">
+        <item>Ev</item>
+        <item>İş</item>
+        <item>Okul</item>
+        <item>Yurt</item>
+        <item>Diğer</item>
     </string-array>
     <string name="title_activity_inside">Inside</string>
     <string name="title_anasayfa">Anasayfa</string>
@@ -15,7 +21,7 @@
     <string name="title_urunDetayBaslik">Ürün Detay</string>
     <string name="title_pastanelerBaslik">Size En Yakın Pastaneler</string>
     <string name="title_odemeBaslik">Ödeme</string>
-    <string name="title_adresler">Adresler</string>
+    <string name="title_adresler">Adres Ekle</string>
     <string name="title_sepet">Seçilen Ürünler</string>
     <string name="title_odemeBilgileri">Ödeme Bilgileri</string>
     <string name="btnSepeteEkle">Sepete Ekle</string>

@@ -1,9 +1,12 @@
 package com.example.ibrahimenescifti.pastasepeti.Modeller;
 
+import java.util.Date;
 import java.util.UUID;
 
-public class SepetModel {
+public class SiparisBilgileriModel {
     UUID siparisNo;
+    UUID pastaneId;
+    UUID kullaniciId;
     String kullaniciAdi;
     String kullaniciSoyad;
     String kullaniciTelefonNumarasi;
@@ -14,8 +17,68 @@ public class SepetModel {
     String pastaneAdi;
     String urunAdi;
     String urunDetay;
+    String siparisNotu;
     Double urunFiyat;
+    Date siparisTarihi;
+    String odemeTuru;
+    boolean durum;
     int urunAdet;
+int siparisId;
+
+    public int getSiparisId() {
+        return siparisId;
+    }
+
+    public void setSiparisId(int siparisId) {
+        this.siparisId = siparisId;
+    }
+
+    public String getOdemeTuru() {
+        return odemeTuru;
+    }
+
+    public void setOdemeTuru(String odemeTuru) {
+        this.odemeTuru = odemeTuru;
+    }
+    public UUID getPastaneId() {
+        return pastaneId;
+    }
+
+    public void setPastaneId(UUID pastaneId) {
+        this.pastaneId = pastaneId;
+    }
+
+    public UUID getKullaniciId() {
+        return kullaniciId;
+    }
+
+    public void setKullaniciId(UUID kullaniciId) {
+        this.kullaniciId = kullaniciId;
+    }
+
+    public String getSiparisNotu() {
+        return siparisNotu;
+    }
+
+    public void setSiparisNotu(String siparisNotu) {
+        this.siparisNotu = siparisNotu;
+    }
+    public Date getSiparisTarihi() {
+        return siparisTarihi;
+    }
+
+    public void setSiparisTarihi(Date siparisTarihi) {
+        this.siparisTarihi = siparisTarihi;
+    }
+
+    public boolean isDurum() {
+        return durum;
+    }
+
+    public void setDurum(boolean durum) {
+        this.durum = durum;
+    }
+
     public int getUrunAdet() {
         return urunAdet;
     }
